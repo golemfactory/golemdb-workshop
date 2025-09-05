@@ -8,7 +8,7 @@ import jsLogger, {ILogger} from "js-logger";
 jsLogger.useDefaults();
 jsLogger.setLevel(jsLogger.DEBUG);
 jsLogger.setHandler(jsLogger.createDefaultHandler({
-  formatter: function(messages, context) {
+  formatter: function (messages, context) {
     // prefix each log message with a timestamp.
     messages.unshift(`[${new Date().toISOString()} ${context.level.name}]`);
   }
