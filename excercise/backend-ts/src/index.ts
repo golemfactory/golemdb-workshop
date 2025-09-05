@@ -1,8 +1,10 @@
+//You can put your environment variables in a .env file
 import 'dotenv/config'
+//Hono is a web framework similar to Express
 import {Hono} from 'hono'
 import jsLogger, {ILogger} from "js-logger";
 
-// Configure logger
+// Configure logger for convenience
 jsLogger.useDefaults();
 jsLogger.setLevel(jsLogger.DEBUG);
 jsLogger.setHandler(jsLogger.createDefaultHandler({
@@ -58,10 +60,14 @@ async function initBeforeServerStarts() {
 
 initBeforeServerStarts().then(
   () => {
+    // Start the server on port 8000, if you change, fix also in frontend
     const port = 8000;
+    // Default bun timeout is 10s which is sometimes not enough, feel free to adjust
+    const idleTimeout = 30;
     log.info(`Starting server at http://localhost:${port}`);
+    // Serve using Bun's built-in server
     Bun.serve({
-        idleTimeout: 30,
+        idleTimeout,
         port,
         fetch: app.fetch,
       }
@@ -69,7 +75,7 @@ initBeforeServerStarts().then(
   }
 ).catch(
   (e) => {
-    console.error(e)
+    log.error(e);
     process.exit(1)
   }
 )
